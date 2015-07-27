@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_filecreate" default="compile.module.filecreate">
+  <dirname property="module.filecreate.basedir" file="${ant.file.module_filecreate}"/>
+  
+  <property name="module.jdk.home.filecreate" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.filecreate" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.filecreate" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.filecreate" value="-encoding windows-1252 -source 8 ${compiler.args}"/>
+  
+  <property name="filecreate.output.dir" value="${module.filecreate.basedir}/out/production/FileCREATE"/>
+  <property name="filecreate.testoutput.dir" value="${module.filecreate.basedir}/out/test/FileCREATE"/>
+  
+  <path id="filecreate.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="filecreate.module.production.classpath">
+    <path refid="${module.jdk.classpath.filecreate}"/>
+    <fileset dir="${basedir}/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  <path id="filecreate.runtime.production.module.classpath">
+    <fileset dir="${basedir}/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <pathelement location="${filecreate.output.dir}"/>
+  </path>
+  
+  <path id="filecreate.module.classpath">
+    <path refid="${module.jdk.classpath.filecreate}"/>
+    <fileset dir="${basedir}/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <pathelement location="${filecreate.output.dir}"/>
+  </path>
+  
+  <path id="filecreate.runtime.module.classpath">
+    <fileset dir="${basedir}/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <pathelement location="${filecreate.testoutput.dir}"/>
+    <pathelement location="${filecreate.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.filecreate">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.filecreate">
+    <patternset refid="excluded.from.module.filecreate"/>
+  </patternset>
+  
+  <path id="filecreate.module.sourcepath">
+    <dirset dir="${module.filecreate.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.filecreate" depends="compile.module.filecreate.production,compile.module.filecreate.tests" description="Compile module FileCREATE"/>
+  
+  <target name="compile.module.filecreate.production" depends="register.custom.compilers" description="Compile module FileCREATE; production classes">
+    <mkdir dir="${filecreate.output.dir}"/>
+    <javac2 destdir="${filecreate.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.filecreate}/javac">
+      <compilerarg line="${compiler.args.filecreate}"/>
+      <bootclasspath refid="filecreate.module.bootclasspath"/>
+      <classpath refid="filecreate.module.production.classpath"/>
+      <src refid="filecreate.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.filecreate"/>
+    </javac2>
+    
+    <copy todir="${filecreate.output.dir}">
+      <fileset dir="${module.filecreate.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.filecreate.tests" depends="register.custom.compilers,compile.module.filecreate.production" description="compile module FileCREATE; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.filecreate" description="cleanup module">
+    <delete dir="${filecreate.output.dir}"/>
+    <delete dir="${filecreate.testoutput.dir}"/>
+  </target>
+</project>

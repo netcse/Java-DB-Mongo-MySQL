@@ -1,0 +1,1 @@
+{ "_id" : { "$oid" : "558f6ea679867bb889cde9a7" }, "name" : "sadi", "college" : "MIST", "district" : "dhaka", "age" : "23" }{ "_id" : { "$oid" : "558f6f0b79867bb889cde9aa" }, "name" : "nizam", "college" : "AUST", "district" : "dhaka", "age" : "25" }{ "_id" : { "$oid" : "558f6f0579867bb889cde9a9" }, "name" : "guru", "college" : "MVC", "district" : "dhaka", "age" : "28" }
